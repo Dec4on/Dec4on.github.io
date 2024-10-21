@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/CSS/style.css">
+    <link rel="icon" type="image/x-icon" href="/ASSETS/favicon.ico">
+    <title>EMC Library</title>
+</head>
+<body>
+    <div class="header">
+        <img class="header-button" src="/ASSETS/emclib.png" style="height: 50px;" onclick="reloadPage()">
+        <input placeholder="Search..." class="search" id="search_bar" onkeyup="searchBar()">
+    </div>
+
+    <div style="width: 145px; height: 35px; margin-left: 10px;">
+        <div class="sort-button" id="shelf-sort" onclick="shelfLayout()"></div> 
+        <div class="sort-button" id="block-sort" onclick="blockLayout()"></div> 
+        <select class="sort-button" id="sort-button" style="outline: none; color: white; font-family: monospace; font-size: 16px; width: 65px; margin-left: 5px; background-color: #fff8e77a; border: 0;" onchange="changedFilter()">
+            <option>all</option>
+            <option>saved</option>
+        </select>
+    </div>
+
+    <div id="bookshelf">
+        <div id="bookDescriptionDiv" onclick="openBookReader()">
+            <h2 id="bookTitle">title here</h2>
+            <p id="bookDescription">text here</p>
+            <h4 id="bookAuthor">Written by User</h3>
+        </div>
+    </div>
+
+    <div id="blockshelf"></div>
+
+    <div id="bookreader" class="book-container" style="overflow-y: hidden;">
+        <div id="title-container">
+            <div style="margin-bottom: 10px;">
+                <h1 class="book-title" id="book-title">title here</h1>
+                <h4 class="book-author" id="book-author">By User</h4>
+            </div>
+        </div>
+        <img id="menu-buttonDIV" onclick="closeBookReader()" class="headerButton" src="/ASSETS/exit_button.png">
+        <div id="saved-buttonDIV" onclick="saveBook()" class="savedButton" title="Add book to saved"></div>
+        <div class="description-container" style="overflow-y: auto;">
+            <p class="book-description" id="book-description">text here</p>
+        </div>
+        <img id="menu-buttonDIV" onclick="gotoNextPage()" class="arrowButton" src="/ASSETS/arrow.png">
+        <img id="menu-buttonDIV" onclick="gotoprevPage()" class="arrowButton_left" src="/ASSETS/arrow.png">
+        <p id="page_count" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 15px;">1</p>
+    </div>
+
+    <script type="module" src="/JS/main.js"></script>
+</body>
+</html>
