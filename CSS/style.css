@@ -1,0 +1,381 @@
+body {
+    margin: 0px;
+    font-family: monospace;
+    font-weight: 400;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #302c2d;
+    pointer-events: auto;
+}
+
+
+.header h2 {
+    position: relative;
+    margin: 0px;
+    margin-left: 20px;
+    color: white;
+    line-height: 100px;
+    font-size: 30px;
+}
+
+.header {
+    width: 100%;
+    height: 100px;
+    background-color: #302c2d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.header-button {
+    display: inline-block;
+    user-select: none;
+    -webkit-user-drag: none;
+    cursor: pointer;
+}
+
+.header-button:hover {
+    filter: brightness(.8);
+}
+
+.search {
+    width: 300px;
+    height: 35px;
+    border: 0;
+    font-size: 15px;
+    text-align: center;
+    font-weight: 400;
+    font-family: monospace;
+    background-color: #fff8e77a;
+    color: white;
+    border-radius: 0;
+    outline: none;
+    margin-right: 45px;
+}
+.search:focus {
+	outline-style: solid;
+	outline-width: 2px;
+	outline-color: white;
+}
+
+.search::placeholder {
+	color: white;
+}
+
+option {
+    color: black;
+}
+
+
+
+
+
+#bookshelf {
+    width: 100%;
+    background-image: url(../ASSETS/Library-1.png);
+    min-height: calc(100vh - 135px);
+}
+
+.book {
+    width: 20px;
+    height: 95px;
+    float: left;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.book:hover {
+    filter: brightness(.5);
+}
+
+#bookshelf::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#bookDescriptionDiv {
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 5px solid black;
+    box-shadow: 5px 5px #0000005d;
+    display: none;
+}
+
+#bookTitle {
+    text-align: center;
+    color: black;
+}
+
+#bookDescription {
+    color: black;
+    padding: 10px;
+    padding-bottom: 50px;
+}
+
+.backtick-format {
+    background-color: #f1cca2;
+    padding: 2px;
+}
+
+#bookAuthor {
+    text-align: center;
+    bottom: 0px;
+    color: black;
+}
+
+.sort-button {
+    width: 35px;
+    height: 35px;
+    display: block;
+    float: left;
+    cursor: pointer;
+}
+
+#shelf-sort {
+    background-image: url(../ASSETS/sort-shelf-select-button.png);
+}
+
+#block-sort {
+    background-image: url(../ASSETS/sort-block-button.png);
+    margin-left: 5px;
+}
+
+#blockshelf {
+    width: 100%;
+    margin: 10px auto;
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.bookBlock {
+    width: 220px;
+    height: 310px;
+    margin: 5px;
+    background-color: #a93c39;
+    border: 5px solid #5e343d;
+    cursor: pointer;
+    color: rgb(194, 194, 194);
+}
+
+.bookBlock p {
+    padding: 3px;
+    font-size: 13px
+}
+
+#bookreader {
+    height: 650px;
+    width: 70%;
+    background-color: #FFF8E7;
+    border: 5px solid #CBC5B9;
+    position: fixed;
+    display: block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+    pointer-events: auto;
+    display: none;
+}
+
+
+#bookeditor {
+    height: 90%;
+    width: 70%;
+    background-color: #FFF8E7;
+    border: 5px solid #CBC5B9;
+    position: fixed;
+    display: block;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+    pointer-events: auto;
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .bookBlock {
+        width: 165px;
+        height: 220px;
+    }
+    .bookBlock p {
+        padding: 3px;
+        font-size: 11px
+    }
+    .bookBlock h2 {
+        font-size: 16px
+    }
+    #bookreader {
+        width: 100%;
+    }
+    .search {
+        width: 250px;
+    }
+}
+
+
+
+.bookBlock:hover {
+    filter: brightness(.8);
+}
+
+.write-button img{
+    width: 13px;
+    height: 13px;
+}
+
+
+.book-container {
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#title-container {
+    position: relative;
+    padding: 20px;
+    background-color: #5e343d;
+    color: #fff;
+    border: 5px solid black;
+}
+
+
+.book-title {
+    padding-right: 20px;
+    margin: 0;
+    font-weight: bold;
+    font-size: 24px;
+    word-wrap: break-word;
+}
+
+.book-author {
+    margin: 0;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.headerButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 35px;
+    width: auto;
+    cursor: pointer;
+}
+
+.savedButton {
+	position: absolute;
+	top: 20px;
+	right: 80px;
+	height: 35px;
+	width: 35px;
+	cursor: pointer;
+	background-image: url('/ASSETS/unsaved.png');
+	background-size: contain;
+	background-repeat: no-repeat; 
+	background-position: center;
+}
+
+.savedButton:hover {
+    filter: brightness(.8);
+}
+
+.arrowButton {
+    position: absolute;
+    bottom: 20px;
+    right: 100px;
+    height: 35px;
+    width: auto;
+    cursor: pointer;
+}
+
+.arrowButton_left {
+    position: absolute;
+    bottom: 20px;
+    left: 100px;
+    height: 35px;
+    width: auto;
+    cursor: pointer;
+    transform: scaleX(-1);
+}
+
+.arrowButton:hover, .arrowButton_left:hover {
+    filter: brightness(0.8);
+}
+
+.description-container {
+    position: relative;
+    max-height: 60%;
+    overflow-y: auto;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.book-description {
+    padding: 20px;
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 400;
+    color: #333;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+background: #555; 
+}
+
+::-webkit-scrollbar-thumb {
+background: #f1cca2; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: #b99d7d; 
+}
+
+
+.button-save {
+    color: black;
+    background-color: #f4a45c;
+    width: 80px;
+    height: 35px;
+    border-radius: 0px;
+    border: 5px solid black;
+    position: absolute;
+    top: 20px;
+    right: 70px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.button-color {
+    color: white;
+    background-color: #5e343d;
+    width: 80px;
+    height: 35px;
+    border-radius: 0px;
+    border: 5px solid black;
+    position: absolute;
+    top: 60px;
+    right: 70px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.button-color:hover {
+    filter: brightness(1.5);
+}
+
+.button-save:hover {
+    filter: brightness(.8);
+}
