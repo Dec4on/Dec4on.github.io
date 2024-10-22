@@ -476,7 +476,6 @@ loadBooks().then(() => {
     window.changedCategory = function() {
         const category_button = document.getElementById('category-button');
 
-
         let book_list_temp;
         if (getFilter() == 'saved' && saved_book_list) {
             book_list_temp = saved_book_list;
