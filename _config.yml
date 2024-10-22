@@ -1,1 +1,16 @@
-theme: jekyll-theme-minimal
+# _config.yml
+
+title: EMC Library
+description: EMC Library for EarthMc
+
+theme: minima
+
+exclude:
+	- "*.js"
+	- "*.css"
+	- node_modules/
+	- vendor/
+
+baseurl: ""
+
+url: "dec4on.github.io"
