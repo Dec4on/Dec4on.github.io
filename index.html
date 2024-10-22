@@ -13,12 +13,24 @@
         <input placeholder="Search..." class="search" id="search_bar" onkeyup="searchBar()">
     </div>
 
-    <div style="width: 145px; height: 35px; margin-left: 10px;">
+    <div style="width: 300px; height: 35px; margin-left: 10px;">
         <div class="sort-button" id="shelf-sort" onclick="shelfLayout()"></div> 
         <div class="sort-button" id="block-sort" onclick="blockLayout()"></div> 
         <select class="sort-button" id="sort-button" style="outline: none; color: white; font-family: monospace; font-size: 16px; width: 65px; margin-left: 5px; background-color: #fff8e77a; border: 0;" onchange="changedFilter()">
             <option>all</option>
             <option>saved</option>
+        </select>
+
+        <select class="sort-button" id="category-button" style="outline: none; color: white; font-family: monospace; font-size: 16px; width: 150px; margin-left: 5px; background-color: #fff8e736; border: 0;" onchange="changedCategory()">
+            <option>all</option>
+            <option>Fiction</option>
+            <option>Non-Fiction</option>
+            <option>History & Politics</option>
+            <option>Science & Technology</option>
+            <option>Adventure</option>
+            <option>Mystery & Thriller</option>
+            <option>Humor</option>
+            <option>Other</option>
         </select>
     </div>
 
