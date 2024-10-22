@@ -473,6 +473,55 @@ loadBooks().then(() => {
         location.replace(location.href);
     }
 
+    window.changedCategory = function() {
+        const category_button = document.getElementById('category-button');
+
+
+        let book_list_temp;
+        if (getFilter() == 'saved' && saved_book_list) {
+            book_list_temp = saved_book_list;
+        } else if (search ) {
+            book_list_temp = results
+        } else {
+            book_list_temp = loaded_books;
+        }
+
+        if (category_button.value == 'all') {
+            if (blockedBooks) {
+                gotoBlock(book_list_temp)
+            } else {
+                renderBooksShelf(book_list_temp)
+            }
+        } else {
+            let categories = {}
+            for (var i = 0; i < Object.keys(book_list_temp).length; i++) {
+                const key = Object.keys(book_list_temp)[i];
+                let book_data = book_list_temp[key];
+                if ('category' in book_data) {
+                    let category = book_data['category']
+                    if (!(category in categories)) {
+                        categories[category] = []
+                    }
+                    categories[category].push(book_data)
+                } else {
+                    if (!('Other' in categories)) {
+                        categories['Other'] = []
+                    }
+                    categories['Other'].push(book_data)
+                }
+            }            
+            let category_books_only = [];
+            if (category_button.value in categories) {
+                category_books_only = categories[category_button.value];
+            }
+            if (blockedBooks) {
+                gotoBlock(category_books_only)
+            } else {
+                renderBooksShelf(category_books_only)
+            }
+        }
+    }
+
     window.changedFilter = function() {
         const sort_button = document.getElementById('sort-button');
         if (sort_button.value == 'saved') {
