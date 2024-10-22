@@ -25,7 +25,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
 }
 
 .header-button {
@@ -184,20 +183,6 @@ option {
 }
 
 
-#bookeditor {
-    height: 90%;
-    width: 70%;
-    background-color: #FFF8E7;
-    border: 5px solid #CBC5B9;
-    position: fixed;
-    display: block;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    overflow-y: auto;
-    pointer-events: auto;
-    display: none;
-}
 
 @media (max-width: 600px) {
     .bookBlock {
@@ -212,7 +197,7 @@ option {
         font-size: 16px
     }
     #bookreader {
-        width: 100%;
+        width: 95%;
     }
     .search {
         width: 250px;
