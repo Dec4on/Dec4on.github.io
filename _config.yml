@@ -6,8 +6,6 @@ description: EMC Library for EarthMc
 theme: minima
 
 exclude:
-	- "*.js"
-	- "*.css"
 	- node_modules/
 	- vendor/
 
