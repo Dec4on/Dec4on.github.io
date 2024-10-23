@@ -6,9 +6,9 @@ description: EMC Library for EarthMc
 theme: minima
 
 exclude:
-	- node_modules/
-	- vendor/
+  - node_modules/
+  - vendor/
 
 baseurl: ""
 
-url: "dec4on.github.io"
+url: "https://dec4on.github.io"
