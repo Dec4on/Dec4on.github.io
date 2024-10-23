@@ -16,6 +16,8 @@ let current_page = 0;
 let saved_book_list;
 let results = [];
 let search = false;
+let category_sorted = false;
+let category_sorted_list = [];
 
 const firebaseConfig = {
     apiKey: "AIzaSyAdsgCuoNen7d6YGKCFGa6jWCctp_-OL_0",
@@ -247,8 +249,11 @@ loadBooks().then(() => {
 
     function openBookReader(bookKey) {
         const element = document.getElementById(`book${bookKey}`);
+        
         let bookData;
-        if (getFilter() == 'saved' && saved_book_list) {
+        if (category_sorted && category_sorted_list){
+            bookData = category_sorted_list[bookKey]
+        } else if (getFilter() == 'saved' && saved_book_list) {
             bookData = saved_book_list[bookKey];
         } else if (search ) {
             bookData = results[bookKey]
@@ -256,6 +261,7 @@ loadBooks().then(() => {
             const main_key = Object.keys(loaded_books)[bookKey];
             bookData = loaded_books[main_key];
         }
+
         const title = document.getElementById('book-title');
         const author = document.getElementById('book-author');
         const book_text = document.getElementById('book-description');
@@ -340,11 +346,18 @@ loadBooks().then(() => {
         page_count.innerText = `(${current_page + 1} / ${book_content['pages'].length})`;
     }
 
-    window.searchBar = function() {
+    function searching() {
         const search_bar = document.getElementById('search_bar');
 
         let book_list = loaded_books; 
-        if (getFilter() == 'saved') {
+        if (category_sorted && category_sorted_list) {
+            let new_book_dict = {}
+            for (var i = 0; i < category_sorted_list.length; i++) {
+                let temp_book_id = category_sorted_list[i].author + '_' + category_sorted_list[i].title;
+                new_book_dict[temp_book_id] = category_sorted_list[i];
+            }
+            book_list = new_book_dict;
+        } else if (getFilter() == 'saved') {
             let new_book_dict = {}
             for (var i = 0; i < saved_book_list.length; i++) {
                 let temp_book_id = saved_book_list[i].author + '_' + saved_book_list[i].title;
@@ -374,6 +387,10 @@ loadBooks().then(() => {
         } else {
             search = false
         }
+    }
+    
+    window.searchBar = function() {
+        searching();
     }
 
     function searchBooks(library, searchTerm) {
@@ -491,6 +508,7 @@ loadBooks().then(() => {
             } else {
                 renderBooksShelf(book_list_temp)
             }
+            category_sorted = false;
         } else {
             let categories = {}
             for (var i = 0; i < Object.keys(book_list_temp).length; i++) {
@@ -518,8 +536,12 @@ loadBooks().then(() => {
             } else {
                 renderBooksShelf(category_books_only)
             }
+            category_sorted_list = category_books_only;
+            category_sorted = true;
         }
+        searching();
     }
+    
 
     window.changedFilter = function() {
         const sort_button = document.getElementById('sort-button');
