@@ -315,15 +315,15 @@ option {
 }
 
 ::-webkit-scrollbar-track {
-background: #555; 
+    background: #555; 
 }
 
 ::-webkit-scrollbar-thumb {
-background: #f1cca2; 
+    background: #f1cca2; 
 }
 
 ::-webkit-scrollbar-thumb:hover {
-background: #b99d7d; 
+    background: #b99d7d; 
 }
 
 
@@ -363,4 +363,95 @@ background: #b99d7d;
 
 .button-save:hover {
     filter: brightness(.8);
+}
+
+.featured {
+	background-color: #226b5d;
+	border: 3px solid white;
+	width: calc(100% - 6px);
+	margin-bottom: 6px;
+	font-weight: bolder;
+	height: 40px;
+	padding: 0;
+	color: white;
+	overflow: hidden;
+	position: relative;
+    user-select: none;
+    display: none;
+}
+
+.featured p {
+	margin: 0;
+	line-height: 40px;
+	font-size: 13px;
+    margin-left: 5px;
+	padding: 0;
+	white-space: nowrap;
+    text-align: left;
+    animation: slideText 2s linear infinite alternate; 
+}
+
+.featured-button-exit {
+    position: absolute;
+    right: 3px;
+    background-color: #302c2d;
+    height: 40px;
+    width: 40px;
+    line-height: 100%;
+    color: white;
+    font-weight: bolder;
+    top: 103px;
+    padding: 0;
+    display: none;
+}
+
+.featured-button-exit:hover {
+    filter: brightness(.8);
+    cursor: pointer;
+}
+
+.featured:hover {
+    filter: brightness(.8);
+    cursor: pointer;
+}
+
+
+@keyframes slideText {
+    0% {
+        margin-left: 0%;
+    }
+    100% {
+        margin-left: calc(100% - 40px - 320px);
+    }
+}
+
+
+
+@media (min-width: 600px) {
+    .featured p {
+        animation: scrollText 25s linear infinite; 
+        position: absolute;
+        line-height: 30px;
+        font-size: 15px;
+    }
+    .featured {
+        width: 98%;
+        margin-left: calc(1% - 3px);
+        height: 30px;
+    }
+
+    .featured-button-exit {
+        height: 30px;
+        width: 30px;
+        right: 1%;
+    }
+
+    @keyframes scrollText {
+        0% {
+            margin-left: -16%;
+        }
+        100% {
+            margin-left: 100%;
+        }
+    }
 }
