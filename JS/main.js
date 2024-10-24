@@ -108,6 +108,12 @@ loadBooks().then(() => {
         return snapshot.val();
     };
 
+    const loadFeaturedBook = async () => {
+        const reference = ref(db, `featured/`);
+        const snapshot = await get(reference);
+        return snapshot.val();
+    };
+
     function show_descr(bookKey) {
         const bookDescription = document.getElementById('bookDescription');
         const bookAuthor = document.getElementById('bookAuthor');
@@ -248,32 +254,30 @@ loadBooks().then(() => {
     }
 
     function openBookReader(bookKey) {
-        const element = document.getElementById(`book${bookKey}`);
-        
         let bookData;
-        if (category_sorted && category_sorted_list){
-            bookData = category_sorted_list[bookKey]
-        } else if (getFilter() == 'saved' && saved_book_list) {
-            bookData = saved_book_list[bookKey];
-        } else if (search ) {
-            bookData = results[bookKey]
+        if (typeof(bookKey) != "number") {
+            bookData = bookKey;
+
         } else {
-            const main_key = Object.keys(loaded_books)[bookKey];
-            bookData = loaded_books[main_key];
+            const element = document.getElementById(`book${bookKey}`);
+        
+            if (category_sorted && category_sorted_list){
+                bookData = category_sorted_list[bookKey]
+            } else if (getFilter() == 'saved' && saved_book_list) {
+                bookData = saved_book_list[bookKey];
+            } else if (search ) {
+                bookData = results[bookKey]
+            } else {
+                const main_key = Object.keys(loaded_books)[bookKey];
+                bookData = loaded_books[main_key];
+            }
         }
 
         const title = document.getElementById('book-title');
         const author = document.getElementById('book-author');
         const book_text = document.getElementById('book-description');
         current_page = 0;
-        if (1 == 4) {
-            const ID = `book${bookKey}`
-            const blocked_book = document.getElementById(ID); 
-            const backgroundImage = window.getComputedStyle(blocked_book).getPropertyValue('background-image');
-            const { backgroundColor, borderColor } = getColor(backgroundImage);
-            bookreader_title_container.style.backgroundColor = backgroundColor;
-            bookreader_title_container.style.borderColor = borderColor;
-        } else {
+        if (typeof(bookKey) == "number") {
             if (blockedBooks) {
                 bookreader_title_container.style.backgroundColor = element.style.backgroundColor;
                 bookreader_title_container.style.border = element.style.borderColor;
@@ -284,32 +288,32 @@ loadBooks().then(() => {
                 bookreader_title_container.style.backgroundColor = backgroundColor;
                 bookreader_title_container.style.border = borderColor;
             }
-            book_text.innerText = 'Loading...'
-            author.innerText = 'Loading...'
-            const book_id =  bookData['author'] + '_' + bookData['title'];
-            const get_page = getPage(book_id);
-            if (get_page) {
-                current_page = parseInt(get_page)
-            }
-            const button_element = document.getElementById('saved-buttonDIV');
-            let saved_list = fromCache('saved_list');
-            if (!saved_list) {
-                saved_list = [];
-            }
-            if (!saved_list.includes(book_id)) {
-                button_element.style.backgroundImage = "url('/ASSETS/unsaved.png')";
-            } else {
-                button_element.style.backgroundImage = "url('/ASSETS/saved.png')";
-            }
-            loadBookContent(book_id).then((bookContent) => {
-                title.innerText = bookContent.title;
-                author.innerText = `By ${bookContent.author}`;
-                book_text.innerHTML = mcToHtml(bookContent.pages[0]);
-                book_content = bookContent;
-                updatePageCount(bookContent)
-            });
-            
         }
+        book_text.innerText = 'Loading...'
+        author.innerText = 'Loading...'
+        const book_id =  bookData['author'] + '_' + bookData['title'];
+        const get_page = getPage(book_id);
+        if (get_page) {
+            current_page = parseInt(get_page)
+        }
+        const button_element = document.getElementById('saved-buttonDIV');
+        let saved_list = fromCache('saved_list');
+        if (!saved_list) {
+            saved_list = [];
+        }
+        if (!saved_list.includes(book_id)) {
+            button_element.style.backgroundImage = "url('/ASSETS/unsaved.png')";
+        } else {
+            button_element.style.backgroundImage = "url('/ASSETS/saved.png')";
+        }
+        loadBookContent(book_id).then((bookContent) => {
+            title.innerText = bookContent.title;
+            author.innerText = `By ${bookContent.author}`;
+            book_text.innerHTML = mcToHtml(bookContent.pages[0]);
+            book_content = bookContent;
+            updatePageCount(bookContent)
+        });
+            
         bookreader.style.display = 'block';
         document.body.style.pointerEvents = 'none';
         overflow_settings = document.body.style.overflowY;
@@ -590,4 +594,38 @@ loadBooks().then(() => {
             return null;
         }
     }
+
+    let featured_book_data;
+
+    function loadPopup() {
+        const featured_div_text = document.getElementById('featured-div-text');
+        const featured_div = document.getElementById('featured-div');
+        const featured_button_exit = document.getElementById('featured-button-exit');
+        loadFeaturedBook().then((featured_book) => {
+            if (featured_book) {
+                let bookData = loaded_books[featured_book];
+                featured_div_text.innerText =  `Click here to read "${bookData['title']}" by ${bookData['author']}`;
+                featured_book_data = bookData;
+                featured_div.style.display = 'block';
+                featured_button_exit.style.display = 'block';
+            }
+        });
+    }
+    
+    loadPopup()
+
+    window.clickOnPopup = function() {
+        if (featured_book_data) {
+            openBookReader(featured_book_data)
+        }
+    }
 });
+
+
+
+window.hidePopop = function() {
+    const featured_div = document.getElementById('featured-div');
+    const featured_button_exit = document.getElementById('featured-button-exit');
+    featured_div.style.display = 'none';
+    featured_button_exit.style.display = 'none';
+}
