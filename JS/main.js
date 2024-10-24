@@ -255,11 +255,12 @@ loadBooks().then(() => {
 
     function openBookReader(bookKey) {
         let bookData;
+        let element;
         if (typeof(bookKey) != "number") {
             bookData = bookKey;
 
         } else {
-            const element = document.getElementById(`book${bookKey}`);
+            element = document.getElementById(`book${bookKey}`);
         
             if (category_sorted && category_sorted_list){
                 bookData = category_sorted_list[bookKey]
