@@ -466,8 +466,7 @@ loadBooks().then(() => {
             blockBook.className = 'bookBlock';
             blockBook.id = bookID;
 
-            const backgroundImage = window.getComputedStyle(bookElement).getPropertyValue('background-image');
-            const { backgroundColor, borderColor } = getColor(backgroundImage);
+            const { backgroundColor, borderColor } = getColorByKey(main_key);
             blockBook.style.backgroundColor = backgroundColor;
             blockBook.style.border = borderColor;
 
