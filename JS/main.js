@@ -117,35 +117,37 @@ loadBooks().then(() => {
     function show_descr(bookKey) {
         const bookDescription = document.getElementById('bookDescription');
         const bookAuthor = document.getElementById('bookAuthor');
-
+    
         let bookData;
         if (getFilter() == 'saved' && saved_book_list) {
             bookData = saved_book_list[bookKey];
-        } else if (search ) {
-            bookData = results[bookKey]
+        } else if (search) {
+            bookData = results[bookKey];
         } else {
             const main_key = Object.keys(loaded_books)[bookKey];
             bookData = loaded_books[main_key];
         }
-
-        const bookID = `book${bookKey}`
+    
+        const bookID = `book${bookKey}`;
         const offsets = document.getElementById(bookID).getBoundingClientRect();
-        const bookTop = offsets.top;
-        const bookLeft = offsets.left;
-        descriptionElement.style.top =  `${bookTop}px`;
+        const bookTop = offsets.top + document.documentElement.scrollTop;
+        const bookLeft = offsets.left + document.documentElement.scrollLeft;
+    
+        descriptionElement.style.top = `${bookTop}px`;
         if (bookLeft < window.innerWidth / 2) {
             descriptionElement.style.left = `${bookLeft + 20}px`;
         } else {
             descriptionElement.style.left = `${bookLeft - 315}px`;
         }
-        if (bookTop > window.innerHeight / 2) {
-            descriptionElement.style.top = `${bookTop - 190}px`;
+        if (bookTop > window.innerHeight / 2 + document.documentElement.scrollTop) {
+            descriptionElement.style.top = `${bookTop - 300}px`;
         }
         descriptionTitle.innerText = bookData['title'];
         bookDescription.innerText = bookData['descr'];
-        bookAuthor.innerText = 'Written by ' + bookData['author'] ;
+        bookAuthor.innerText = 'Written by ' + bookData['author'];
         descriptionElement.style.display = 'block';
     }
+    
 
     function hide_descr() {
         descriptionElement.style.display = 'none';
@@ -173,6 +175,38 @@ loadBooks().then(() => {
     }
 
     let overflow_settings = 'auto'
+
+    function getColorByKey(book_key) {
+        let backgroundColor_book;
+        let bordercolor_book;
+        const colordata = loaded_books[book_key]['color'];
+        if (colordata == 0) {
+            backgroundColor_book = '#a93c39';
+            bordercolor_book = '5px solid #5e343d';
+        } else if (colordata == 1) {
+            backgroundColor_book = '#a93c39';
+            bordercolor_book = '5px solid #7c434b';
+        } else if (colordata == 2) {
+            backgroundColor_book = '#31497b';
+            bordercolor_book = '5px solid #7c434b';  
+        } else if (colordata == 3) {
+            backgroundColor_book = '#aa3b39';
+            bordercolor_book = '5px solid #7a4548';  
+        } else if (colordata == 4) {
+            backgroundColor_book = '#554068';
+            bordercolor_book = '5px solid #79444c';  
+        } else if (colordata == 5) {
+            backgroundColor_book = '#575553';
+            bordercolor_book = '5px solid #7a444b';  
+        } else if (colordata == 6) {
+            backgroundColor_book = '#387c43';
+            bordercolor_book = '5px solid #794449';  
+        }
+        return {
+            backgroundColor: backgroundColor_book,
+            borderColor: bordercolor_book
+        };    
+    }
 
     function getColor(backgroundImage) {
         let backgroundColor_book;
@@ -278,21 +312,24 @@ loadBooks().then(() => {
         const author = document.getElementById('book-author');
         const book_text = document.getElementById('book-description');
         current_page = 0;
-        if (typeof(bookKey) == "number") {
-            if (blockedBooks) {
-                bookreader_title_container.style.backgroundColor = element.style.backgroundColor;
-                bookreader_title_container.style.border = element.style.borderColor;
-            } else {
-                const bookElement = document.getElementById(element.id);
-                const backgroundImage = window.getComputedStyle(bookElement).getPropertyValue('background-image');
-                const { backgroundColor, borderColor } = getColor(backgroundImage);
-                bookreader_title_container.style.backgroundColor = backgroundColor;
-                bookreader_title_container.style.border = borderColor;
-            }
-        }
+        // if (typeof(bookKey) == "number") {
+        //     if (blockedBooks) {
+        //         bookreader_title_container.style.backgroundColor = element.style.backgroundColor;
+        //         bookreader_title_container.style.border = element.style.borderColor;
+        //     } else {
+        //         const bookElement = document.getElementById(element.id);
+        //         const backgroundImage = window.getComputedStyle(bookElement).getPropertyValue('background-image');
+        //         const { backgroundColor, borderColor } = getColor(backgroundImage);
+        //         bookreader_title_container.style.backgroundColor = backgroundColor;
+        //         bookreader_title_container.style.border = borderColor;
+        //     }
+        // }
         book_text.innerText = 'Loading...'
         author.innerText = 'Loading...'
         const book_id =  bookData['author'] + '_' + bookData['title'];
+        const { backgroundColor, borderColor } = getColorByKey(book_id);
+        bookreader_title_container.style.backgroundColor = backgroundColor;
+        bookreader_title_container.style.border = borderColor;
         const get_page = getPage(book_id);
         if (get_page) {
             current_page = parseInt(get_page)
