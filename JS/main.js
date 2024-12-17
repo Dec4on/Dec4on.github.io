@@ -6,7 +6,7 @@ const descriptionElement = document.getElementById('bookDescriptionDiv');
 const descriptionTitle = document.getElementById('bookTitle');
 const blockshelf = document.getElementById('blockshelf');
 const bookreader = document.getElementById('bookreader');
-const bookreader_title_container = document.getElementById('title-container');
+const bookreader_title_container = document.getElementById('title');
 const blockSort = document.getElementById('block-sort');
 const shelfSort = document.getElementById('shelf-sort');
 
@@ -87,8 +87,10 @@ loadBooks().then(() => {
     
     if (isMobile || (layoutExists && isLayoutTrue)) {
         document.getElementById('sort-button').value = 'all';
-        blockSort.style.backgroundImage = 'url(../ASSETS/sort-block-select-button.png)';
+        blockSort.style.backgroundImage = 'url(../ASSETS/sort-block-button.png)';
+        blockSort.style.filter = 'contrast(2)';
         shelfSort.style.backgroundImage = 'url(../ASSETS/sort-shelf-button.png)';
+        shelfSort.style.filter = 'unset';
         gotoBlock(loaded_books);
         blockedBooks = true;
         bookshelf.style.display = "none";
@@ -115,8 +117,8 @@ loadBooks().then(() => {
     };
 
     function show_descr(bookKey) {
-        const bookDescription = document.getElementById('bookDescription');
-        const bookAuthor = document.getElementById('bookAuthor');
+        //const bookDescription = document.getElementById('bookDescription');
+        //const bookAuthor = document.getElementById('bookAuthor');
     
         let bookData;
         if (getFilter() == 'saved' && saved_book_list) {
@@ -127,7 +129,7 @@ loadBooks().then(() => {
             const main_key = Object.keys(loaded_books)[bookKey];
             bookData = loaded_books[main_key];
         }
-    
+
         const bookID = `book${bookKey}`;
         const offsets = document.getElementById(bookID).getBoundingClientRect();
         const bookTop = offsets.top + document.documentElement.scrollTop;
@@ -147,7 +149,6 @@ loadBooks().then(() => {
         bookAuthor.innerText = 'Written by ' + bookData['author'];
         descriptionElement.style.display = 'block';
     }
-    
 
     function hide_descr() {
         descriptionElement.style.display = 'none';
@@ -156,8 +157,9 @@ loadBooks().then(() => {
     window.blockLayout = function() {
         localStorage.setItem('layout', true);
         document.getElementById('sort-button').value = 'all';
-        blockSort.style.backgroundImage = 'url(../ASSETS/sort-block-select-button.png)';
+        blockSort.style.filter = 'contrast(2)';
         shelfSort.style.backgroundImage = 'url(../ASSETS/sort-shelf-button.png)';
+        shelfSort.style.filter = 'unset';
         gotoBlock(loaded_books)
         blockedBooks = true;
         bookshelf.style.display = "none"
@@ -167,8 +169,9 @@ loadBooks().then(() => {
     window.shelfLayout = function() {
         localStorage.setItem('layout', false);        
         document.getElementById('sort-button').value = 'all';
+        shelfSort.style.filter = 'contrast(2)';
         blockSort.style.backgroundImage = 'url(../ASSETS/sort-block-button.png)';
-        shelfSort.style.backgroundImage = 'url(../ASSETS/sort-shelf-select-button.png)';
+        blockSort.style.filter = 'unset';
         bookshelf.style.display = "block"
         blockshelf.style.display = "none"
         blockedBooks = false;
@@ -207,6 +210,7 @@ loadBooks().then(() => {
             borderColor: bordercolor_book
         };    
     }
+
 
     function getColor(backgroundImage) {
         let backgroundColor_book;
@@ -308,9 +312,9 @@ loadBooks().then(() => {
             }
         }
 
-        const title = document.getElementById('book-title');
-        const author = document.getElementById('book-author');
-        const book_text = document.getElementById('book-description');
+        const title = document.getElementById('title');
+        const author = document.getElementById('author');
+        const book_text = document.getElementById('text');
         current_page = 0;
         // if (typeof(bookKey) == "number") {
         //     if (blockedBooks) {
@@ -328,21 +332,21 @@ loadBooks().then(() => {
         author.innerText = 'Loading...'
         const book_id =  bookData['author'] + '_' + bookData['title'];
         const { backgroundColor, borderColor } = getColorByKey(book_id);
-        bookreader_title_container.style.backgroundColor = backgroundColor;
-        bookreader_title_container.style.border = borderColor;
+        //bookreader_title_container.style.backgroundColor = backgroundColor;
+        //bookreader_title_container.style.border = borderColor;
         const get_page = getPage(book_id);
         if (get_page) {
             current_page = parseInt(get_page)
         }
-        const button_element = document.getElementById('saved-buttonDIV');
+        const button_element = document.getElementById('save');
         let saved_list = fromCache('saved_list');
         if (!saved_list) {
             saved_list = [];
         }
         if (!saved_list.includes(book_id)) {
-            button_element.style.backgroundImage = "url('/ASSETS/unsaved.png')";
+            button_element.style.filter = 'grayscale(1)';
         } else {
-            button_element.style.backgroundImage = "url('/ASSETS/saved.png')";
+            button_element.style.filter = 'unset';
         }
         loadBookContent(book_id).then((bookContent) => {
             title.innerText = bookContent.title;
@@ -353,13 +357,13 @@ loadBooks().then(() => {
         });
             
         bookreader.style.display = 'block';
-        document.body.style.pointerEvents = 'none';
+        //document.body.style.pointerEvents = 'none';
         overflow_settings = document.body.style.overflowY;
         hide_descr()
     }
 
     window.gotoNextPage = function() {
-        const book_text = document.getElementById('book-description');
+        const book_text = document.getElementById('text');
         if (current_page + 1 < book_content['pages'].length) {
             current_page += 1;
             book_text.innerHTML = mcToHtml(book_content['pages'][current_page]);
@@ -367,8 +371,8 @@ loadBooks().then(() => {
         }
     };
     
-    window.gotoprevPage = function() {
-        const book_text = document.getElementById('book-description');
+    window.gotoPrevPage = function() {
+        const book_text = document.getElementById('text');
         if (current_page > 0) {
             current_page -= 1;
             book_text.innerHTML = mcToHtml(book_content['pages'][current_page]);
@@ -378,14 +382,14 @@ loadBooks().then(() => {
 
     window.closeBookReader = function() {
         bookreader.style.display = 'none';
-        document.body.style.pointerEvents = 'auto';
+        //document.body.style.pointerEvents = 'auto';
         document.body.style.overflowY = overflow_settings;
     }
 
     function updatePageCount(book_content) {
         setPage(book_content.author + '_' + book_content.title, current_page)
-        const page_count = document.getElementById('page_count');
-        page_count.innerText = `(${current_page + 1} / ${book_content['pages'].length})`;
+        const page_count = document.getElementById('index');
+        page_count.innerText = `Page ${current_page + 1} of ${book_content['pages'].length}`;
     }
 
     function searching() {
@@ -498,7 +502,7 @@ loadBooks().then(() => {
     }
 
     window.saveBook = function() {
-        const button_element = document.getElementById('saved-buttonDIV');
+        const button_element = document.getElementById('save');
         const book_id = `${book_content.author}_${book_content.title}`;
         let saved_list = fromCache('saved_list');
         if (!saved_list) {
@@ -506,10 +510,10 @@ loadBooks().then(() => {
         }
         if (!saved_list.includes(book_id)) {
             saved_list.push(book_id)
-            button_element.style.backgroundImage = "url('/ASSETS/saved.png')";
+            button_element.style.filter = 'unset';
         } else {
             saved_list = saved_list.filter(item => item !== book_id);
-            button_element.style.backgroundImage = "url('/ASSETS/unsaved.png')";
+            button_element.style.filter = 'grayscale(1)';
         }
         toCache(saved_list, 'saved_list');
     }
