@@ -50,7 +50,34 @@
 
     <div id="blockshelf"></div>
 
-    <div id="bookreader" class="book-container" style="overflow-y: hidden;">
+    <div id="bookreader">
+        <div id="header">
+            <div id="info">
+                <div id="title">
+                    Title
+                </div>
+                <div id="author">
+                    By Author
+                </div>
+            </div>
+            <div id="menu">
+                <div class="icon" id="save" onclick="saveBook()"></div>
+                <div class="icon" id="exit" onclick="closeBookReader()"></div>
+            </div>
+        </div>
+        <div id="content">
+            <div id="index">
+                Page 1 of 10
+            </div>
+            <div id="text">Lorem ipsum</div>
+            <div id="navigation">
+                <div class="navigate" id="forward" onclick="gotoNextPage()"></div>
+                <div class="navigate" id="back"  onclick="gotoPrevPage()"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div id="bookreader" class="book-container" style="overflow-y: hidden;">
         <div id="title-container">
             <div style="margin-bottom: 10px;">
                 <h1 class="book-title" id="book-title">title here</h1>
@@ -65,7 +92,7 @@
         <img id="menu-buttonDIV" onclick="gotoNextPage()" class="arrowButton" src="/ASSETS/arrow.png">
         <img id="menu-buttonDIV" onclick="gotoprevPage()" class="arrowButton_left" src="/ASSETS/arrow.png">
         <p id="page_count" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 15px;">1</p>
-    </div>
+    </div>-->
 
     <script type="module" src="/JS/main.js"></script>
 </body>
